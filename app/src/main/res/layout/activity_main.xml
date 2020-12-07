@@ -23,6 +23,11 @@
             android:text="@string/search"
             android:id="@+id/search_btn"/>
 
+        <ImageView
+            android:id="@+id/main_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

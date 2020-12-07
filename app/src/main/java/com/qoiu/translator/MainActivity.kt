@@ -3,7 +3,6 @@ package com.qoiu.translator
 import android.os.Bundle
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.qoiu.translator.mvp.view.BaseActivity
 import com.qoiu.translator.mvp.model.data.DataModel
@@ -28,6 +27,7 @@ class MainActivity : BaseActivity<DataModel>() {
         btnSearch.setOnClickListener {
             presenter.getData(editText.text.toString(),true)
         }
+
     }
 
     override fun renderData(dataModel: DataModel) {
