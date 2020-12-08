@@ -1,30 +1,15 @@
 package com.qoiu.translator.mvp.view
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.qoiu.translator.mvp.model.data.DataModel
-import com.qoiu.translator.mvp.presenter.Presenter
-import com.qoiu.translator.mvp.presenter.View
+import com.qoiu.translator.mvp.model.data.AppState
+import com.qoiu.translator.mvp.presenter.Interactor
+import com.qoiu.translator.mvvm.viewmodel.BaseViewModel
 
-abstract class BaseActivity <T : DataModel> : AppCompatActivity(), View {
-        protected lateinit var presenter: Presenter<T, View>
+abstract class BaseActivity <T : AppState, I : Interactor<T>> : AppCompatActivity() {
 
-        protected abstract fun createPresenter(): Presenter<T, View>
+        abstract val model: BaseViewModel<T>
 
-        abstract override fun renderData(dataModel: DataModel)
+        abstract fun renderData(appState: AppState)
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            presenter = createPresenter()
-        }
 
-        override fun onStart() {
-            super.onStart()
-            presenter.attachView(this)
-        }
-
-        override fun onStop() {
-            super.onStop()
-            presenter.detachView(this)
-        }
 }

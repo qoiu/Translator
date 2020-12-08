@@ -5,22 +5,26 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
+import com.qoiu.translator.mvp.model.MainInteractor
+import com.qoiu.translator.mvp.model.data.AppState
 import com.qoiu.translator.mvp.view.BaseActivity
-import com.qoiu.translator.mvp.model.data.DataModel
-import com.qoiu.translator.mvp.presenter.MainPresenter
-import com.qoiu.translator.mvp.presenter.Presenter
-import com.qoiu.translator.mvp.presenter.View
 import com.qoiu.translator.mvp.view.MainViewRecycler
+import com.qoiu.translator.mvvm.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity<DataModel>() {
+class MainActivity : BaseActivity<AppState, MainInteractor>() {
     private val adapter: MainViewRecycler? = null
 
-    override fun createPresenter(): Presenter<DataModel, View> {
-        return MainPresenter()
+    private  val observer = Observer<AppState>{renderData(it)}
+    override val model: MainViewModel by lazy {
+        //ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+        ViewModelProvider(this).get(MainViewModel::class.java)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,15 +32,18 @@ class MainActivity : BaseActivity<DataModel>() {
         val editText=findViewById<TextInputEditText>(R.id.input_word)
         val btnSearch=findViewById<Button>(R.id.search_btn)
         btnSearch.setOnClickListener {
-            presenter.getData(editText.text.toString(),true)
+            //presenter.getData(editText.text.toString(),true)
+            model.getData(editText.text.toString(), true).observe(this@MainActivity, observer)
         }
+
+        model.viewState.observe(this,observer)
 
     }
 
-    override fun renderData(dataModel: DataModel) {
-        when(dataModel){
-            is DataModel.Success->{
-                val searchResult = dataModel.data
+    override fun renderData(appState: AppState) {
+        when(appState){
+            is AppState.Success->{
+                val searchResult = appState.data
                 if(searchResult.isEmpty()){
                    hideView()
                 } else {
@@ -49,17 +56,17 @@ class MainActivity : BaseActivity<DataModel>() {
                     }
                 }
             }
-            is DataModel.Loading -> {
+            is AppState.Loading -> {
                 showView(main_layout_progress)
-                if(dataModel.progress != null){
-                    progressBar.progress=dataModel.progress
+                if(appState.progress != null){
+                    progressBar.progress=appState.progress
                 } else{
                    hideView()
                 }
             }
-            is DataModel.Error->{
+            is AppState.Error->{
                 showView(main_layout_error)
-                textview_error.text=dataModel.error.message
+                textview_error.text=appState.error.message
             }
         }
     }

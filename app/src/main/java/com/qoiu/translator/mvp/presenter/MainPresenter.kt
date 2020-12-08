@@ -1,7 +1,7 @@
 package com.qoiu.translator.mvp.presenter
 
 import com.qoiu.translator.mvp.RepositoryImplementation
-import com.qoiu.translator.mvp.model.data.DataModel
+import com.qoiu.translator.mvp.model.data.AppState
 import com.qoiu.translator.mvp.model.MainInteractor
 import com.qoiu.translator.mvp.model.data.DataSourceRemote
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 
-class MainPresenter<T : DataModel, V: View>(
+class MainPresenter<T : AppState, V: View>(
     private val interactor: MainInteractor = MainInteractor(
         RepositoryImplementation(DataSourceRemote()),
         //Add local source
@@ -41,17 +41,17 @@ class MainPresenter<T : DataModel, V: View>(
     }
 
     private fun doOnSubscribe() : (Disposable) -> Unit = {
-        currentView?.renderData(DataModel.Loading(null))
+        currentView?.renderData(AppState.Loading(null))
     }
 
-    private fun getObserver() : DisposableObserver<DataModel>{
-        return object : DisposableObserver<DataModel>(){
-            override fun onNext(t: DataModel) {
+    private fun getObserver() : DisposableObserver<AppState>{
+        return object : DisposableObserver<AppState>(){
+            override fun onNext(t: AppState) {
                 currentView?.renderData(t)
             }
 
             override fun onError(e: Throwable) {
-                currentView?.renderData(DataModel.Error(e))
+                currentView?.renderData(AppState.Error(e))
             }
 
             override fun onComplete() {
