@@ -7,4 +7,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Header">
+        <item name="android:textSize">25sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
+    <style name="Text">
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">2dp</item>
+    </style>
+
 </resources>
