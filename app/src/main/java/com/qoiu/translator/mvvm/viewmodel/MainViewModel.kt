@@ -8,13 +8,10 @@ import com.qoiu.translator.mvp.model.data.DataSourceRemote
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class MainViewModel(
-    private val interactor:MainInteractor = MainInteractor(
-RepositoryImplementation(DataSourceRemote()),
-//Add local source
-RepositoryImplementation(DataSourceRemote())
-)
+class MainViewModel @Inject constructor(
+    private val interactor:MainInteractor
 ) : BaseViewModel<AppState>() {
 
     override fun getData(word: String, isOnline: Boolean): LiveData<AppState> {
