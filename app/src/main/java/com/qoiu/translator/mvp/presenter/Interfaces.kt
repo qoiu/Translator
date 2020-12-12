@@ -1,16 +1,16 @@
 package com.qoiu.translator.mvp.presenter
 
-import com.qoiu.translator.mvp.model.data.DataModel
+import com.qoiu.translator.mvp.model.data.AppState
 import com.qoiu.translator.mvp.model.data.SearchResults
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface View{
-    fun renderData(dataModel : DataModel)
+    fun renderData(appState : AppState)
 }
 
-interface Presenter<T : DataModel, V : View>{
+interface Presenter<T : AppState, V : View>{
     fun attachView(view: V)
     fun detachView(view: V)
     fun getData(word: String, isOnline: Boolean)
