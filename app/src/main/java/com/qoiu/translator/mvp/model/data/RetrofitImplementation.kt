@@ -1,29 +1,30 @@
 package com.qoiu.translator.mvp.model.data
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import com.qoiu.translator.mvp.presenter.ApiService
-import com.qoiu.translator.mvp.presenter.DataSource
-import io.reactivex.Observable
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.qoiu.translator.ApiService
+import com.qoiu.translator.DataSource
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitImplementation : DataSource<List<SearchResults>>{
-    override fun getData(word: String): Observable<List<SearchResults>> {
-        return getService(BaseInterceptor.interceptor).search(word)
+class RetrofitImplementation :
+    DataSource<List<SearchResults>> {
+    override suspend fun getData(word: String): List<SearchResults> {
+        return getService(BaseInterceptor.interceptor).search(word).await()
     }
 
-    private fun getService(interceptor: Interceptor) : ApiService{
+    private fun getService(interceptor: Interceptor) : ApiService {
         return createRetrofit(interceptor).create(ApiService::class.java)
     }
+
 
     private fun createRetrofit(interceptor: Interceptor): Retrofit{
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(createOkHttpClient(interceptor))
             .build()
     }

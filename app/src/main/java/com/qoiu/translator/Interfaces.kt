@@ -1,8 +1,8 @@
-package com.qoiu.translator.mvp.presenter
+package com.qoiu.translator
 
 import com.qoiu.translator.mvp.model.data.AppState
 import com.qoiu.translator.mvp.model.data.SearchResults
-import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -17,19 +17,19 @@ interface Presenter<T : AppState, V : View>{
 }
 
 interface Interactor<T>{
-    fun getData(word: String, fromRemoteSource: Boolean): Observable<T>
+    suspend fun getData(word: String, fromRemoteSource: Boolean): T
 }
 
 interface Repository<T> {
-    fun getData(word: String): Observable<T>
+    suspend fun getData(word: String): T
 }
 
 interface DataSource<T> {
-    fun getData(word: String): Observable<T>
+    suspend fun getData(word: String):T
 }
 
 interface ApiService {
 
     @GET("words/search")
-    fun search(@Query("search") wordToSearch: String): Observable<List<SearchResults>>
+    fun search(@Query("search") wordToSearch: String): Deferred<List<SearchResults>>
 }

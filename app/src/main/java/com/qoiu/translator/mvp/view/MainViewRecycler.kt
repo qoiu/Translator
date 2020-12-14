@@ -10,10 +10,12 @@ import com.qoiu.translator.mvp.model.data.SearchResults
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.word_information.view.*
 
-class MainViewRecycler(private var data: List<SearchResults>) : RecyclerView.Adapter<MainViewRecycler.ViewHolder>() {
+class MainViewRecycler(private var data: MutableList<SearchResults>) : RecyclerView.Adapter<MainViewRecycler.ViewHolder>() {
+
+
 
     fun setData(data: List<SearchResults>) {
-        this.data = data
+        this.data = data.toMutableList()
         notifyDataSetChanged()
     }
 

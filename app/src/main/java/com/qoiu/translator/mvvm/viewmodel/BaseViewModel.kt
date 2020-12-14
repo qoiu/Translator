@@ -4,19 +4,30 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.qoiu.translator.mvp.model.data.AppState
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.*
 
 abstract class BaseViewModel<T : AppState>(
-    protected val liveDataForViewToObserve : MutableLiveData<T> = MutableLiveData(),
-    protected val compositeDisposable: CompositeDisposable = CompositeDisposable()
+   protected open val mutableLiveData: MutableLiveData<T> = MutableLiveData()
 ) : ViewModel() {
 
-    val viewState: LiveData<T> = liveDataForViewToObserve
+    protected val viewModelCoroutineScope = CoroutineScope(
+        Dispatchers.Main
+    + SupervisorJob()
+    + CoroutineExceptionHandler{_,throwable->
+            handleError(throwable)
+        }
+    )
 
-    open fun getData(word: String, isOnline: Boolean): LiveData<T> = liveDataForViewToObserve
+    abstract fun getData(word: String, isOnline: Boolean)
 
     override fun onCleared() {
-        liveDataForViewToObserve.value = null
-        compositeDisposable.clear()
+        super.onCleared()
+        cancelJob()
+    }
+
+    abstract fun handleError(error: Throwable)
+
+    protected fun cancelJob(){
+        viewModelCoroutineScope.coroutineContext.cancelChildren()
     }
 }
