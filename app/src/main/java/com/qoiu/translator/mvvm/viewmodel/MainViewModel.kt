@@ -5,38 +5,47 @@ import com.qoiu.translator.mvp.RepositoryImplementation
 import com.qoiu.translator.mvp.model.MainInteractor
 import com.qoiu.translator.mvp.model.data.AppState
 import com.qoiu.translator.mvp.model.data.DataSourceRemote
+import com.qoiu.translator.parseSearchResults
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MainViewModel @Inject constructor(
+class MainViewModel(
     private val interactor:MainInteractor
 ) : BaseViewModel<AppState>() {
 
-    override fun getData(word: String, isOnline: Boolean): LiveData<AppState> {
-        compositeDisposable.add(
-            interactor.getData(word, isOnline)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe{liveDataForViewToObserve.value = AppState.Loading(null)}
-                .subscribeWith(getObserver())
-        )
-        return super.getData(word, isOnline)
+    private val liveDataForViewToObserve: LiveData<AppState> = mutableLiveData
+
+    fun subscribe() : LiveData<AppState>{
+        return liveDataForViewToObserve
     }
 
-    private fun getObserver() : DisposableObserver<AppState> {
-        return object : DisposableObserver<AppState>(){
-            override fun onNext(state: AppState) {
-                liveDataForViewToObserve.value = state
-            }
+    override fun getData(word: String, isOnline: Boolean) {
+       mutableLiveData.value=AppState.Loading(null)
+        cancelJob()
+        viewModelCoroutineScope.launch {
+            startInteractor(word,isOnline)
+        }
+    }
 
-            override fun onError(e: Throwable) {
-                liveDataForViewToObserve.value= AppState.Error(e)
-            }
-
-            override fun onComplete() {
+    private suspend fun startInteractor(word: String, isOnline: Boolean){
+        withContext(Dispatchers.IO){
+            val result = parseSearchResults(interactor.getData(word,isOnline))
+            withContext(Dispatchers.Main){
+                mutableLiveData.value = result
             }
         }
+    }
+
+    override fun handleError(error: Throwable) {
+        mutableLiveData.postValue(AppState.Error(error))
+    }
+
+    override fun onCleared() {
+        mutableLiveData.value=AppState.Success(null)
+        super.onCleared()
     }
 }
