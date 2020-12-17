@@ -1,4 +1,4 @@
-package com.qoiu.translator.mvp.view
+package com.qoiu.translator.view
 
 import android.net.Uri
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.qoiu.translator.R
 import com.qoiu.translator.mvp.model.data.SearchResults
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.word_information.view.*
 
-class MainViewRecycler(private var data: MutableList<SearchResults>) : RecyclerView.Adapter<MainViewRecycler.ViewHolder>() {
+class MainViewRecycler(private var onListItemClickListener: OnListItemClickListener) : RecyclerView.Adapter<MainViewRecycler.ViewHolder>() {
 
+    private var data : List<SearchResults> = arrayListOf()
 
 
     fun setData(data: List<SearchResults>) {
@@ -32,12 +32,7 @@ class MainViewRecycler(private var data: MutableList<SearchResults>) : RecyclerV
         fun bind(data: SearchResults) {
             itemView.word_title.text=data.text
             itemView.word_description.text=data.meanings?.get(0)?.translation?.translation
-            val url ="https:"+Uri.parse(data.meanings?.get(0)?.imageUrl)
-            Picasso.get()
-                .load(url)
-                .placeholder(R.drawable.ic_baseline_picture_in_picture_24)
-                .into(itemView.word_image)
-
+            itemView.setOnClickListener{openInNewWindow(data)}
         }
     }
 
@@ -45,4 +40,12 @@ class MainViewRecycler(private var data: MutableList<SearchResults>) : RecyclerV
         holder.bind(data.get(position))
     }
 
+
+    private fun openInNewWindow(listItemData: SearchResults) {
+        onListItemClickListener.onItemClick(listItemData)
+    }
+
+    interface OnListItemClickListener {
+        fun onItemClick(data: SearchResults)
+    }
 }
