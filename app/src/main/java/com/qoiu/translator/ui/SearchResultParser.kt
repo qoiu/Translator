@@ -1,9 +1,9 @@
-package geekbrains.ru.translator.utils
+package com.qoiu.translator.ui
 
-import geekbrains.ru.translator.model.data.AppState
-import geekbrains.ru.translator.model.data.Meanings
-import geekbrains.ru.translator.model.data.DataModel
-import geekbrains.ru.translator.room.HistoryEntity
+import com.qoiu.translator.mvp.model.data.AppState
+import com.qoiu.translator.mvp.model.data.Meanings
+import com.qoiu.translator.mvp.model.data.SearchResults
+import com.qoiu.translator.room.HistoryEntity
 
 fun parseOnlineSearchResults(state: AppState): AppState {
     return AppState.Success(mapResult(state, true))
@@ -16,8 +16,8 @@ fun parseLocalSearchResults(data: AppState): AppState {
 private fun mapResult(
     data: AppState,
     isOnline: Boolean
-): List<DataModel> {
-    val newSearchResults = arrayListOf<DataModel>()
+): List<SearchResults> {
+    val newSearchResults = arrayListOf<SearchResults>()
     when (data) {
         is AppState.Success -> {
             getSuccessResultData(data, isOnline, newSearchResults)
@@ -29,9 +29,9 @@ private fun mapResult(
 private fun getSuccessResultData(
     data: AppState.Success,
     isOnline: Boolean,
-    newDataModels: ArrayList<DataModel>
+    newDataModels: ArrayList<SearchResults>
 ) {
-    val dataModels: List<DataModel> = data.data as List<DataModel>
+    val dataModels: List<SearchResults> = data.data as List<SearchResults>
     if (dataModels.isNotEmpty()) {
         if (isOnline) {
             for (searchResult in dataModels) {
@@ -39,13 +39,13 @@ private fun getSuccessResultData(
             }
         } else {
             for (searchResult in dataModels) {
-                newDataModels.add(DataModel(searchResult.text, arrayListOf()))
+                newDataModels.add(SearchResults(searchResult.text, arrayListOf()))
             }
         }
     }
 }
 
-private fun parseOnlineResult(dataModel: DataModel, newDataModels: ArrayList<DataModel>) {
+private fun parseOnlineResult(dataModel: SearchResults, newDataModels: ArrayList<SearchResults>) {
     if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
         for (meaning in dataModel.meanings) {
@@ -54,16 +54,16 @@ private fun parseOnlineResult(dataModel: DataModel, newDataModels: ArrayList<Dat
             }
         }
         if (newMeanings.isNotEmpty()) {
-            newDataModels.add(DataModel(dataModel.text, newMeanings))
+            newDataModels.add(SearchResults(dataModel.text, newMeanings))
         }
     }
 }
 
-fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<DataModel> {
-    val searchResult = ArrayList<DataModel>()
+fun mapHistoryEntityToSearchResult(list: List<HistoryEntity>): List<SearchResults> {
+    val searchResult = ArrayList<SearchResults>()
     if (!list.isNullOrEmpty()) {
         for (entity in list) {
-            searchResult.add(DataModel(entity.word, null))
+            searchResult.add(SearchResults(entity.word, null))
         }
     }
     return searchResult

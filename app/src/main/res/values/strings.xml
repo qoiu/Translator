@@ -2,4 +2,11 @@
     <string name="app_name">Translator</string>
     <string name="search">Search</string>
     <string name="empty_server_response_on_success">Couldn\'t find any deffinitions</string>
+    <string name="dialog_title_device_is_offline">No internet connection</string>
+    <string name="dialog_message_device_is_offline">No internet connection</string>
+    <string name="dialog_title_stub">Undefined error</string>
+    <string name="dialog_button_cancel">Cancel</string>
+    <string name="dialog_tittle_sorry">Sorry</string>
+    <string name="error_stub">Error</string>
+    <string name="menu_title_history">History</string>
 </resources>

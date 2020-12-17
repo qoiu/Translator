@@ -1,15 +1,14 @@
-package geekbrains.ru.translator.model.datasource
+package com.qoiu.translator.mvp.model.data
 
-import geekbrains.ru.translator.model.data.AppState
-import geekbrains.ru.translator.model.data.DataModel
-import geekbrains.ru.translator.room.HistoryDao
-import geekbrains.ru.translator.utils.convertDataModelSuccessToEntity
-import geekbrains.ru.translator.utils.mapHistoryEntityToSearchResult
+import com.qoiu.translator.DataSourceLocal
+import com.qoiu.translator.room.HistoryDao
+import com.qoiu.translator.ui.convertDataModelSuccessToEntity
+import com.qoiu.translator.ui.mapHistoryEntityToSearchResult
 
 class RoomDataBaseImplementation(private val historyDao: HistoryDao) :
-    DataSourceLocal<List<DataModel>> {
+    DataSourceLocal<List<SearchResults>> {
 
-    override suspend fun getData(word: String): List<DataModel> {
+    override suspend fun getData(word: String): List<SearchResults> {
         return mapHistoryEntityToSearchResult(historyDao.all())
     }
 

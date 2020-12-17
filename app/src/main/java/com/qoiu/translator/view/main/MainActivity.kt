@@ -1,4 +1,4 @@
-package com.qoiu.translator
+package com.qoiu.translator.view.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,14 +8,13 @@ import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
-import com.qoiu.translator.history.HistoryActivity
-import com.qoiu.translator.mvp.model.MainInteractor
+import com.qoiu.translator.R
+import com.qoiu.translator.convertMeaningsToString
+import com.qoiu.translator.view.history.HistoryActivity
 import com.qoiu.translator.mvp.model.data.AppState
 import com.qoiu.translator.mvp.model.data.SearchResults
-import com.qoiu.translator.mvvm.viewmodel.MainViewModel
 import com.qoiu.translator.view.BaseActivity
 import com.qoiu.translator.view.DescriptionActivity
-import com.qoiu.translator.view.MainViewRecycler
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.get
 
@@ -23,7 +22,11 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     private val viewModel: MainViewModel = get()
 
-    private val adapter: MainViewRecycler by lazy { MainViewRecycler(onListItemClickListener)}
+    private val adapter: MainViewRecycler by lazy {
+        MainViewRecycler(
+            onListItemClickListener
+        )
+    }
 
     override lateinit var model: MainViewModel
 

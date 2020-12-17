@@ -1,4 +1,4 @@
-package com.qoiu.translator.history
+package com.qoiu.translator.view.history
 
 import com.qoiu.translator.Interactor
 import com.qoiu.translator.Repository

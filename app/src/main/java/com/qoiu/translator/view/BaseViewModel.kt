@@ -1,6 +1,5 @@
-package com.qoiu.translator.mvvm.viewmodel
+package com.qoiu.translator.view
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.qoiu.translator.mvp.model.data.AppState

@@ -1,4 +1,4 @@
-package com.qoiu.translator.mvp.model
+package com.qoiu.translator.view.main
 
 import com.qoiu.translator.mvp.model.data.AppState
 import com.qoiu.translator.mvp.model.data.SearchResults

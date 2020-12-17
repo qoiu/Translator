@@ -1,13 +1,12 @@
-package geekbrains.ru.translator.model.repository
+package com.qoiu.translator.mvp.model.data
 
-import geekbrains.ru.translator.model.data.AppState
-import geekbrains.ru.translator.model.data.DataModel
-import geekbrains.ru.translator.model.datasource.DataSourceLocal
+import com.qoiu.translator.DataSourceLocal
+import com.qoiu.translator.RepositoryLocal
 
-class RepositoryImplementationLocal(private val dataSource: DataSourceLocal<List<DataModel>>) :
-    RepositoryLocal<List<DataModel>> {
+class RepositoryImplementationLocal(private val dataSource: DataSourceLocal<List<SearchResults>>) :
+    RepositoryLocal<List<SearchResults>> {
 
-    override suspend fun getData(word: String): List<DataModel> {
+    override suspend fun getData(word: String): List<SearchResults> {
         return dataSource.getData(word)
     }
 

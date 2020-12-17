@@ -1,4 +1,4 @@
-package com.qoiu.translator.history
+package com.qoiu.translator.view.history
 
 import android.os.Bundle
 import androidx.lifecycle.Observer

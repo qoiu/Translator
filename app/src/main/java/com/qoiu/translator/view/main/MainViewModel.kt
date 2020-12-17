@@ -1,20 +1,15 @@
-package com.qoiu.translator.mvvm.viewmodel
+package com.qoiu.translator.view.main
 
 import androidx.lifecycle.LiveData
-import com.qoiu.translator.mvp.RepositoryImplementation
-import com.qoiu.translator.mvp.model.MainInteractor
 import com.qoiu.translator.mvp.model.data.AppState
-import com.qoiu.translator.mvp.model.data.DataSourceRemote
+import com.qoiu.translator.view.BaseViewModel
 import com.qoiu.translator.parseSearchResults
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.observers.DisposableObserver
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel(
-    private val interactor:MainInteractor
+    private val interactor: MainInteractor
 ) : BaseViewModel<AppState>() {
 
     private val liveDataForViewToObserve: LiveData<AppState> = mutableLiveData

@@ -1,4 +1,4 @@
-package com.qoiu.translator.history
+package com.qoiu.translator.view.history
 
 import android.view.LayoutInflater
 import android.view.View

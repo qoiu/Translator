@@ -1,8 +1,8 @@
-package com.qoiu.translator.history
+package com.qoiu.translator.view.history
 
 import androidx.lifecycle.LiveData
 import com.qoiu.translator.mvp.model.data.AppState
-import com.qoiu.translator.mvvm.viewmodel.BaseViewModel
+import com.qoiu.translator.view.BaseViewModel
 import com.qoiu.translator.ui.parseLocalSearchResults
 import kotlinx.coroutines.launch
 
