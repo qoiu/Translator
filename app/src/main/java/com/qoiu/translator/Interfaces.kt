@@ -1,7 +1,7 @@
 package com.qoiu.translator
 
-import com.qoiu.translator.mvp.model.data.AppState
-import com.qoiu.translator.mvp.model.data.SearchResults
+import com.qoiu.translator.data.AppState
+import com.qoiu.translator.data.SearchResults
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query

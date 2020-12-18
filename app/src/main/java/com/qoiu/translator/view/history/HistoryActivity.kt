@@ -3,8 +3,8 @@ package com.qoiu.translator.view.history
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.qoiu.translator.R
-import com.qoiu.translator.mvp.model.data.AppState
-import com.qoiu.translator.mvp.model.data.SearchResults
+import com.qoiu.translator.data.AppState
+import com.qoiu.translator.data.SearchResults
 import com.qoiu.translator.view.BaseActivity
 import kotlinx.android.synthetic.main.activity_history.*
 import org.koin.android.viewmodel.ext.android.viewModel

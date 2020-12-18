@@ -1,4 +1,4 @@
-package com.qoiu.translator.mvp.model.data
+package com.qoiu.translator.data
 
 import com.qoiu.translator.DataSourceLocal
 import com.qoiu.translator.RepositoryLocal

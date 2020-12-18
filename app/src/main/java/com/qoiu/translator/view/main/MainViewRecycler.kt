@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.qoiu.translator.R
-import com.qoiu.translator.mvp.model.data.SearchResults
+import com.qoiu.translator.data.SearchResults
 import kotlinx.android.synthetic.main.word_information.view.*
 
 class MainViewRecycler(private var onListItemClickListener: OnListItemClickListener) : RecyclerView.Adapter<MainViewRecycler.ViewHolder>() {

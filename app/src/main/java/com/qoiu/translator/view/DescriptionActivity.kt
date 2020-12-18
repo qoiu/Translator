@@ -52,7 +52,9 @@ class DescriptionActivity : AppCompatActivity() {
 
     private fun setData(){
         val bundle=intent.extras
+        val transcription = "[${bundle?.getString(TRANSCRIPTION_EXTRA)}]"
         description_layout_header.text=bundle?.getString(WORD_EXTRA)
+        description_layout_transcription.text=transcription
         description_layout_description.text=bundle?.getString(DESCRIPTION_EXTRA)
         val imageLink = bundle?.getString(URL_EXTRA)
         if(imageLink.isNullOrBlank()){
@@ -142,17 +144,21 @@ class DescriptionActivity : AppCompatActivity() {
         private const val WORD_EXTRA = "com.qoiu.translator.view.word.extra"
         private const val DIALOG_FRAGMENT_TAG = "com.qoiu.translator.view.dialog.fragment.tag"
         private const val DESCRIPTION_EXTRA = "com.qoiu.translator.view.dialog.description.extra"
+        private const val TRANSCRIPTION_EXTRA = "com.qoiu.translator.view.dialog.transcription.extra"
         private const val URL_EXTRA = "com.qoiu.translator.view.dialog.url.extra"
 
         fun getIntent(
             context: Context,
             word: String,
             description: String,
-            url: String?
+            url: String?,
+            transcription: String?
+
         ): Intent = Intent(context, DescriptionActivity::class.java).apply {
             putExtra(WORD_EXTRA, word)
             putExtra(DESCRIPTION_EXTRA, description)
             putExtra(URL_EXTRA, url)
+            putExtra(TRANSCRIPTION_EXTRA, transcription)
         }
     }
 }

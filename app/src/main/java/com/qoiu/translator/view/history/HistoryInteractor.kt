@@ -3,8 +3,8 @@ package com.qoiu.translator.view.history
 import com.qoiu.translator.Interactor
 import com.qoiu.translator.Repository
 import com.qoiu.translator.RepositoryLocal
-import com.qoiu.translator.mvp.model.data.AppState
-import com.qoiu.translator.mvp.model.data.SearchResults
+import com.qoiu.translator.data.AppState
+import com.qoiu.translator.data.SearchResults
 
 class HistoryInteractor (
     private val repositoryRemote: Repository<List<SearchResults>>,

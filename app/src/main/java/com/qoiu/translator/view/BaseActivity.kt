@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.qoiu.translator.mvp.model.data.AppState
+import com.qoiu.translator.data.AppState
 import com.qoiu.translator.Interactor
 import com.qoiu.translator.R
-import com.qoiu.translator.mvp.model.data.SearchResults
+import com.qoiu.translator.data.SearchResults
 import kotlinx.android.synthetic.main.loading_layout.*
 
 private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"

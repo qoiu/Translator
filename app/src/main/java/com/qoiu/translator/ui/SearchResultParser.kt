@@ -1,8 +1,8 @@
 package com.qoiu.translator.ui
 
-import com.qoiu.translator.mvp.model.data.AppState
-import com.qoiu.translator.mvp.model.data.Meanings
-import com.qoiu.translator.mvp.model.data.SearchResults
+import com.qoiu.translator.data.AppState
+import com.qoiu.translator.data.Meanings
+import com.qoiu.translator.data.SearchResults
 import com.qoiu.translator.room.HistoryEntity
 
 fun parseOnlineSearchResults(state: AppState): AppState {
@@ -39,7 +39,7 @@ private fun getSuccessResultData(
             }
         } else {
             for (searchResult in dataModels) {
-                newDataModels.add(SearchResults(searchResult.text, arrayListOf()))
+                newDataModels.add(SearchResults(searchResult.text,arrayListOf()))
             }
         }
     }
@@ -50,7 +50,7 @@ private fun parseOnlineResult(dataModel: SearchResults, newDataModels: ArrayList
         val newMeanings = arrayListOf<Meanings>()
         for (meaning in dataModel.meanings) {
             if (meaning.translation != null && !meaning.translation.translation.isNullOrBlank()) {
-                newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
+                newMeanings.add(Meanings(meaning.translation, meaning.transcription,meaning.imageUrl))
             }
         }
         if (newMeanings.isNotEmpty()) {
@@ -76,7 +76,7 @@ fun convertDataModelSuccessToEntity(appState: AppState): HistoryEntity? {
             if (searchResult.isNullOrEmpty() || searchResult[0].text.isNullOrEmpty()) {
                 null
             } else {
-                HistoryEntity(searchResult[0].text!!, null)
+                HistoryEntity(searchResult[0].text!!, " ",null)
             }
         }
         else -> null

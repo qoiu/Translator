@@ -11,8 +11,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.qoiu.translator.R
 import com.qoiu.translator.convertMeaningsToString
 import com.qoiu.translator.view.history.HistoryActivity
-import com.qoiu.translator.mvp.model.data.AppState
-import com.qoiu.translator.mvp.model.data.SearchResults
+import com.qoiu.translator.data.AppState
+import com.qoiu.translator.data.SearchResults
 import com.qoiu.translator.view.BaseActivity
 import com.qoiu.translator.view.DescriptionActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -39,7 +39,9 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                         this@MainActivity,
                         data.text!!,
                         convertMeaningsToString(data.meanings!!),
-                        data.meanings[0].imageUrl
+                        data.meanings[0].imageUrl,
+                        data.meanings[0].transcription
+
                     )
                 )
             }
