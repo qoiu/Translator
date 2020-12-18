@@ -1,8 +1,8 @@
 package com.qoiu.translator
 
-import com.qoiu.translator.mvp.model.data.AppState
-import com.qoiu.translator.mvp.model.data.Meanings
-import com.qoiu.translator.mvp.model.data.SearchResults
+import com.qoiu.translator.data.AppState
+import com.qoiu.translator.data.Meanings
+import com.qoiu.translator.data.SearchResults
 
 fun parseSearchResults(data: AppState): AppState {
     val newSearchResults = arrayListOf<SearchResults>()
@@ -25,7 +25,7 @@ private fun parseResult(dataModel: SearchResults, newDataModels: ArrayList<Searc
         val newMeanings = arrayListOf<Meanings>()
         for (meaning in dataModel.meanings) {
             if (meaning.translation != null && !meaning.translation.translation.isNullOrBlank()) {
-                newMeanings.add(Meanings(meaning.translation, meaning.imageUrl))
+                newMeanings.add(Meanings(meaning.translation,meaning.transcription, meaning.imageUrl))
             }
         }
         if (newMeanings.isNotEmpty()) {

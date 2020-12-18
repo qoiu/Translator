@@ -1,4 +1,4 @@
-package com.qoiu.translator.mvp.model.data
+package com.qoiu.translator.data
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.qoiu.translator.ApiService

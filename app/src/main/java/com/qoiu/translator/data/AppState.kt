@@ -1,4 +1,4 @@
-package com.qoiu.translator.mvp.model.data
+package com.qoiu.translator.data
 
 sealed class AppState {
     data class Success(val data: List<SearchResults>?) : AppState()

@@ -1,6 +1,6 @@
-package com.qoiu.translator.mvp
+package com.qoiu.translator.data
 
-import com.qoiu.translator.mvp.model.data.SearchResults
+import com.qoiu.translator.data.SearchResults
 import com.qoiu.translator.DataSource
 import com.qoiu.translator.Repository
 

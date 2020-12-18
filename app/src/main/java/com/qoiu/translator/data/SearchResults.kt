@@ -1,4 +1,4 @@
-package com.qoiu.translator.mvp.model.data
+package com.qoiu.translator.data
 
 import com.google.gson.annotations.SerializedName
 

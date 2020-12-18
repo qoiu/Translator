@@ -1,4 +1,4 @@
-package com.qoiu.translator.mvp.model.data
+package com.qoiu.translator.data
 
 import okhttp3.Interceptor
 import okhttp3.Response
