@@ -1,16 +1,13 @@
 package com.qoiu.translator
 
 import androidx.room.Room
-import com.qoiu.translator.view.history.HistoryInteractor
-import com.qoiu.translator.view.history.HistoryViewModel
-import com.qoiu.translator.data.RepositoryImplementation
+import com.qoiu.historyscreen.history.HistoryInteractor
+import com.qoiu.historyscreen.history.HistoryViewModel
+import com.qoiu.model.SearchResults
+import com.qoiu.repository.data.*
+import com.qoiu.repository.room.HistoryDataBase
 import com.qoiu.translator.view.main.MainInteractor
-import com.qoiu.translator.data.RepositoryImplementationLocal
-import com.qoiu.translator.data.RetrofitImplementation
-import com.qoiu.translator.data.RoomDataBaseImplementation
-import com.qoiu.translator.data.SearchResults
 import com.qoiu.translator.view.main.MainViewModel
-import com.qoiu.translator.room.HistoryDataBase
 import org.koin.dsl.module
 
 val application = module {
@@ -22,7 +19,11 @@ val application = module {
             RetrofitImplementation()
         )
     }
-    single<RepositoryLocal<List<SearchResults>>> { RepositoryImplementationLocal(RoomDataBaseImplementation(get()))}
+    single<RepositoryLocal<List<SearchResults>>> {
+        RepositoryImplementationLocal(
+            RoomDataBaseImplementation(get())
+        )
+    }
 }
 
 val mainScreen = module {
@@ -39,5 +40,5 @@ val mainScreen = module {
 
 val historyScreen = module {
     factory { HistoryViewModel(get()) }
-    factory { HistoryInteractor(get(),get()) }
+    factory { HistoryInteractor(get(), get()) }
 }

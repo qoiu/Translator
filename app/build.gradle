@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-/*
+
 android {
     compileSdkVersion Config.sdk
     buildToolsVersion "29.0.3"
@@ -20,24 +20,22 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-}*/
+}
+
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation Base.core
-    implementation Base.appCompat
-    implementation Base.constraintLayout
-    implementation Base.lifecycleViewmodel
-    implementation Base.lefecycleExtensions
-    testImplementation Base.junit
-    androidTestImplementation Base.junitAndroidX
-    androidTestImplementation Base.testEspresso
+    implementation project(Modules.core)
+    implementation project(Modules.model)
+    implementation project(Modules.utils)
+    implementation project(Modules.repository)
+    implementation project(Modules.historyScreen)
+
     implementation Base.androidX
     implementation Base.material
+    implementation Base.lifecycleViewmodel
+    implementation Base.lefecycleExtensions
 
     //Koin
     implementation Koin.koin

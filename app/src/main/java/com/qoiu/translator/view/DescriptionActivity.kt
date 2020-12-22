@@ -3,22 +3,18 @@ package com.qoiu.translator.view
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.icu.number.NumberFormatter.with
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.GenericTransitionOptions.with
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Glide.with
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.qoiu.translator.R
+import com.qoiu.utils.isOnline
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_description.*
@@ -69,7 +65,7 @@ class DescriptionActivity : AppCompatActivity() {
         if (isOnline(applicationContext)) {
             setData()
         } else {
-            AlertDialogFragment.newInstance(
+            com.qoiu.utils.ui.AlertDialogFragment.newInstance(
                 getString(R.string.dialog_title_device_is_offline),
                 getString(R.string.dialog_message_device_is_offline)
             ).show(
@@ -161,11 +157,4 @@ class DescriptionActivity : AppCompatActivity() {
             putExtra(TRANSCRIPTION_EXTRA, transcription)
         }
     }
-}
-
-fun isOnline(context: Context): Boolean {
-    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val netInfo: NetworkInfo?
-    netInfo = connectivityManager.activeNetworkInfo
-    return netInfo != null && netInfo.isConnected
 }

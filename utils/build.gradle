@@ -1,0 +1,12 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+
+dependencies {
+    implementation Base.appCompat
+    implementation Base.androidX
+    implementation Base.lifecycleViewmodel
+    implementation Kotlin.core
+    implementation Kotlin.stdlib
+}

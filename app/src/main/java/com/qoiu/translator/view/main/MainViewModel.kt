@@ -1,9 +1,9 @@
 package com.qoiu.translator.view.main
 
 import androidx.lifecycle.LiveData
-import com.qoiu.translator.data.AppState
-import com.qoiu.translator.view.BaseViewModel
-import com.qoiu.translator.parseSearchResults
+import com.qoiu.core.BaseViewModel
+import com.qoiu.model.AppState
+import com.qoiu.historyscreen.parseSearchResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,7 +19,7 @@ class MainViewModel(
     }
 
     override fun getData(word: String, isOnline: Boolean) {
-       mutableLiveData.value=AppState.Loading(null)
+       mutableLiveData.value= AppState.Loading(null)
         cancelJob()
         viewModelCoroutineScope.launch {
             startInteractor(word,isOnline)
@@ -28,7 +28,12 @@ class MainViewModel(
 
     private suspend fun startInteractor(word: String, isOnline: Boolean){
         withContext(Dispatchers.IO){
-            val result = parseSearchResults(interactor.getData(word,isOnline))
+            val result = parseSearchResults(
+                interactor.getData(
+                    word,
+                    isOnline
+                )
+            )
             withContext(Dispatchers.Main){
                 mutableLiveData.value = result
             }
@@ -40,7 +45,7 @@ class MainViewModel(
     }
 
     override fun onCleared() {
-        mutableLiveData.value=AppState.Success(null)
+        mutableLiveData.value= AppState.Success(null)
         super.onCleared()
     }
 }
