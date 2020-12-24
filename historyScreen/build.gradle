@@ -1,20 +1,51 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.dynamic-feature'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
+
+android{
+    compileSdkVersion Config.sdk
+    buildToolsVersion "29.0.3"
+
+    compileOptions {
+        sourceCompatibility Config.javaVersion
+        targetCompatibility Config.javaVersion
+    }
+    defaultConfig {
+        minSdkVersion Config.minSdk
+        targetSdkVersion Config.targetSdk
+        versionCode Config.versionCode
+        versionName Config.versionName
+    }
+}
 
 dependencies {
+    implementation project(Modules.app)
     implementation project(Modules.model)
     implementation project(Modules.core)
     implementation project(Modules.repository)
 
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation Base.core
     implementation Base.appCompat
+    testImplementation Base.junit
+    androidTestImplementation Base.junitAndroidX
+    androidTestImplementation Base.testEspresso
     implementation Base.material
 
     implementation Kotlin.core
     implementation Kotlin.stdlib
     implementation Kotlin.coroutinesAndroid
     implementation Kotlin.coroutines
+
+    implementation Tools.multidex
+
+    implementation Room.room
+    implementation Room.ktx
+    kapt Room.compiler
 
     implementation Koin.koin
     implementation Koin.koinViewModel

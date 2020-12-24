@@ -13,8 +13,8 @@ class TranslatorApp : Application() {
      super.onCreate()
         startKoin {
             androidContext(this@TranslatorApp)
-            modules(listOf(application, mainScreen,historyScreen))
-            androidLogger()
+            //modules(listOf(application, mainScreen,historyScreen))
+           // androidLogger()
         }
     }
 }

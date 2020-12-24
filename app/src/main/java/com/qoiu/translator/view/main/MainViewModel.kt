@@ -3,7 +3,7 @@ package com.qoiu.translator.view.main
 import androidx.lifecycle.LiveData
 import com.qoiu.core.BaseViewModel
 import com.qoiu.model.AppState
-import com.qoiu.historyscreen.parseSearchResults
+import com.qoiu.translator.parseSearchResults
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
