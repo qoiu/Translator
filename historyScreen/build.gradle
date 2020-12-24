@@ -1,0 +1,21 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+
+dependencies {
+    implementation project(Modules.model)
+    implementation project(Modules.core)
+    implementation project(Modules.repository)
+
+    implementation Base.appCompat
+    implementation Base.material
+
+    implementation Kotlin.core
+    implementation Kotlin.stdlib
+    implementation Kotlin.coroutinesAndroid
+    implementation Kotlin.coroutines
+
+    implementation Koin.koin
+    implementation Koin.koinViewModel
+}

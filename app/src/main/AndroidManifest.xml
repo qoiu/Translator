@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.DescriptionActivity"></activity>
-        <activity android:name="com.qoiu.translator.view.history.HistoryActivity"></activity>
+        <activity android:name="com.qoiu.historyscreen.history.HistoryActivity"></activity>
         <activity android:name=".view.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

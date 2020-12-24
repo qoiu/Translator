@@ -9,11 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import com.qoiu.translator.R
-import com.qoiu.translator.convertMeaningsToString
-import com.qoiu.translator.view.history.HistoryActivity
-import com.qoiu.translator.data.AppState
-import com.qoiu.translator.data.SearchResults
-import com.qoiu.translator.view.BaseActivity
+import com.qoiu.historyscreen.convertMeaningsToString
+import com.qoiu.historyscreen.history.HistoryActivity
+import com.qoiu.model.AppState
+import com.qoiu.core.BaseActivity
+import com.qoiu.model.SearchResults
 import com.qoiu.translator.view.DescriptionActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.get
@@ -39,8 +39,8 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                         this@MainActivity,
                         data.text!!,
                         convertMeaningsToString(data.meanings!!),
-                        data.meanings[0].imageUrl,
-                        data.meanings[0].transcription
+                        data.meanings!![0].imageUrl,
+                        data.meanings!![0].transcription
 
                     )
                 )

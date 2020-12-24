@@ -1,0 +1,22 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+
+dependencies {
+    implementation project(Modules.model)
+
+    implementation Kotlin.core
+    implementation Kotlin.stdlib
+
+    implementation Retrofit.retrofit
+    implementation Retrofit.converterGson
+    implementation Retrofit.coroutineAdapter
+    implementation Retrofit.interceptor
+
+    kapt Room.compiler
+    implementation Room.ktx
+    implementation Room.room
+
+}

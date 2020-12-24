@@ -21,6 +21,37 @@ allprojects {
     }
 }
 
+subprojects {
+    afterEvaluate { project ->
+        if (project.plugins.findPlugin('android') ?: project.plugins.findPlugin('android-library')) {
+
+            android {
+                compileSdkVersion Config.sdk
+
+                defaultConfig {
+                    minSdkVersion Config.minSdk
+                    targetSdkVersion Config.targetSdk
+                }
+
+                compileOptions {
+                    sourceCompatibility Config.javaVersion
+                    targetCompatibility Config.javaVersion
+                }
+            }
+
+            dependencies {
+                implementation fileTree(dir: "libs", include: ["*.jar"])
+                implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+                implementation Base.core
+                implementation Base.appCompat
+                testImplementation Base.junit
+                androidTestImplementation Base.junitAndroidX
+                androidTestImplementation Base.testEspresso
+            }
+        }
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
