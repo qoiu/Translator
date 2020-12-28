@@ -39,6 +39,7 @@ object Base{
     const val testEspresso = "androidx.test.espresso:espresso-core:3.3.0"
     const val androidX = "androidx.appcompat:appcompat:1.0.2"
     const val material = "com.google.android.material:material:1.0.0"
+    const val playCore =  "com.google.android.play:core:1.6.3"
 }
 
 object Koin{
@@ -54,6 +55,9 @@ object Kotlin{
 
 }
 
+object Tools {
+    const val multidex = "com.android.support:multidex: 1.0.3"
+}
 // Kotlin
 
 // Rx-Java

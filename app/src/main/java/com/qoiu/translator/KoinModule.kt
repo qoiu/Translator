@@ -1,14 +1,18 @@
 package com.qoiu.translator
 
 import androidx.room.Room
-import com.qoiu.historyscreen.history.HistoryInteractor
-import com.qoiu.historyscreen.history.HistoryViewModel
 import com.qoiu.model.SearchResults
 import com.qoiu.repository.data.*
 import com.qoiu.repository.room.HistoryDataBase
 import com.qoiu.translator.view.main.MainInteractor
 import com.qoiu.translator.view.main.MainViewModel
+import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
+fun injectDependencies() = loadModules
+
+private val loadModules by lazy {
+    loadKoinModules(listOf(application, mainScreen))
+}
 
 val application = module {
 
@@ -36,9 +40,4 @@ val mainScreen = module {
     factory {
         MainViewModel(get())
     }
-}
-
-val historyScreen = module {
-    factory { HistoryViewModel(get()) }
-    factory { HistoryInteractor(get(), get()) }
 }

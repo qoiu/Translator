@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import com.qoiu.model.AppState
 import com.qoiu.core.BaseActivity
 import com.qoiu.historyscreen.R
+import com.qoiu.historyscreen.injectDependendencies
 import kotlinx.android.synthetic.main.activity_history.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -33,6 +34,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>(){
         if (history_activity_recyclerview.adapter != null) {
             throw IllegalStateException("The ViewModel should be initialised first")
         }
+        injectDependendencies()
         val viewModel: HistoryViewModel by viewModel()
         model = viewModel
         model.subscribe().observe(this@HistoryActivity, Observer<AppState> { renderData(it) })

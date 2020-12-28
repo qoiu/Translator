@@ -1,12 +1,13 @@
 package com.qoiu.historyscreen.history
 
 import androidx.lifecycle.LiveData
+import com.qoiu.core.BaseViewModel
 import com.qoiu.historyscreen.parseLocalSearchResults
 import com.qoiu.model.AppState
 import kotlinx.coroutines.launch
 
 class HistoryViewModel (private val interactor: HistoryInteractor) :
-    com.qoiu.core.BaseViewModel<AppState>() {
+    BaseViewModel<AppState>() {
 
     private val liveDataForViewToObserve: LiveData<AppState> = mutableLiveData
 
