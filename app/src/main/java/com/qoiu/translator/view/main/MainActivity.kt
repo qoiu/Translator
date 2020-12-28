@@ -14,7 +14,6 @@ import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.InstallStateUpdatedListener
-import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
@@ -29,6 +28,7 @@ import com.qoiu.translator.convertMeaningsToString
 import com.qoiu.translator.injectDependencies
 import com.qoiu.translator.view.DescriptionActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val HISTORY_ACTIVITY_PATH = "com.qoiu.historyscreen.history.HistoryActivity"
@@ -119,11 +119,11 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
             "The ViewModel should be installed first"
         }
         injectDependencies()
+        val viewModel: MainViewModel by currentScope.inject()
+        model=viewModel
         if (recycler_view.adapter != null) {
             throw IllegalStateException("View model not installed")
         }
-        val viewModel : MainViewModel by viewModel()
-        model = viewModel
         model.subscribe().observe(this@MainActivity, Observer<AppState> { renderData(it) })
     }
 

@@ -4,9 +4,12 @@ import androidx.room.Room
 import com.qoiu.model.SearchResults
 import com.qoiu.repository.data.*
 import com.qoiu.repository.room.HistoryDataBase
+import com.qoiu.translator.view.main.MainActivity
 import com.qoiu.translator.view.main.MainInteractor
 import com.qoiu.translator.view.main.MainViewModel
+import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 fun injectDependencies() = loadModules
 
@@ -31,13 +34,8 @@ val application = module {
 }
 
 val mainScreen = module {
-    factory {
-        MainInteractor(
-            get(),
-            get()
-        )
-    }
-    factory {
-        MainViewModel(get())
+    scope(named<MainActivity>()){
+        scoped {MainInteractor(get(), get())}
+        viewModel {MainViewModel(get())}
     }
 }
