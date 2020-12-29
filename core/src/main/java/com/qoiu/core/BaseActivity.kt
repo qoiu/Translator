@@ -3,31 +3,50 @@ package com.qoiu.core
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.qoiu.model.AppState
 import com.qoiu.model.SearchResults
+import com.qoiu.utils.OnlineLiveData
 import com.qoiu.utils.ui.AlertDialogFragment
-import com.qoiu.utils.isOnline
 import kotlinx.android.synthetic.main.loading_layout.*
 
 private const val DIALOG_FRAGMENT_TAG = "74a54328-5d62-46bf-ab6b-cbf5d8c79522"
 
 abstract class BaseActivity <T : AppState, I : Interactor<T>> : AppCompatActivity() {
 
+protected abstract val layoutRes: Int
 
         abstract val model: BaseViewModel<T>
 
-        protected var isNetworkAvailable=false
+        protected var isNetworkAvailable=true
 
 
         override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
                 super.onCreate(savedInstanceState, persistentState)
-                isNetworkAvailable = isOnline(applicationContext)
+                setContentView(layoutRes)
+                subscribeToNetworkChange()
+        }
+
+        fun subscribeToNetworkChange(){
+                OnlineLiveData(this).observe(
+                        this@BaseActivity,
+                        Observer<Boolean> {
+                                isNetworkAvailable = it
+                                if(!isNetworkAvailable){
+                                        Toast.makeText(
+                                                this@BaseActivity,
+                                                R.string.dialog_message_device_is_offline,
+                                                Toast.LENGTH_LONG
+                                        ).show()
+                                }
+                        }
+                )
         }
 
         override fun onResume() {
                 super.onResume()
-                isNetworkAvailable = isOnline(applicationContext)
                 if (!isNetworkAvailable && isDialogNull()) {
                         showNoInternetConnectionDialog()
                 }

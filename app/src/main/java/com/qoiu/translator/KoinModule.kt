@@ -1,7 +1,7 @@
 package com.qoiu.translator
 
 import androidx.room.Room
-import com.qoiu.model.SearchResults
+import com.qoiu.model.SearchResultsDto
 import com.qoiu.repository.data.*
 import com.qoiu.repository.room.HistoryDataBase
 import com.qoiu.translator.view.main.MainActivity
@@ -21,12 +21,12 @@ val application = module {
 
     single { Room.databaseBuilder(get(), HistoryDataBase::class.java, "HistoryDB").build() }
     single { get<HistoryDataBase>().historyDao() }
-    single<Repository<List<SearchResults>>> {
+    single<Repository<List<SearchResultsDto>>> {
         RepositoryImplementation(
             RetrofitImplementation()
         )
     }
-    single<RepositoryLocal<List<SearchResults>>> {
+    single<RepositoryLocal<List<SearchResultsDto>>> {
         RepositoryImplementationLocal(
             RoomDataBaseImplementation(get())
         )

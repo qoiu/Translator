@@ -27,9 +27,9 @@ import com.qoiu.model.SearchResults
 import com.qoiu.translator.convertMeaningsToString
 import com.qoiu.translator.injectDependencies
 import com.qoiu.translator.view.DescriptionActivity
+import com.qoiu.utils.viewById
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.scope.currentScope
-import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val HISTORY_ACTIVITY_PATH = "com.qoiu.historyscreen.history.HistoryActivity"
 private const val HISTORY_ACTIVITY_FEATURE_NAME = "historyScreen"
@@ -38,9 +38,13 @@ private const val REQUEST_CODE = 42
 
 class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
-
+    override val layoutRes: Int = R.layout.activity_main
     private lateinit var splitInstallManager: SplitInstallManager
     private lateinit var appUpdateManager: AppUpdateManager
+
+
+    private val editText by viewById<TextInputEditText>(R.id.input_word)
+    private val btnSearch by viewById<Button>(R.id.search_btn)
 
     private val adapter: MainViewRecycler by lazy {
         MainViewRecycler(
@@ -57,10 +61,10 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                 startActivity(
                     DescriptionActivity.getIntent(
                         this@MainActivity,
-                        data.text!!,
-                        convertMeaningsToString(data.meanings!!),
-                        data.meanings!![0].imageUrl,
-                        data.meanings!![0].transcription
+                        data.text,
+                        convertMeaningsToString(data.meanings),
+                        data.meanings[0].imageUrl,
+                        data.meanings[0].transcription
 
                     )
                 )
@@ -104,8 +108,6 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val editText = findViewById<TextInputEditText>(R.id.input_word)
-        val btnSearch = findViewById<Button>(R.id.search_btn)
         btnSearch.setOnClickListener {
             model.getData(editText.text.toString(), true)
         }

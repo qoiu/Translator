@@ -1,5 +1,6 @@
-package com.qoiu.translator
+package com.qoiu.utils
 
+import android.R
 import android.app.Activity
 import android.view.View
 import androidx.annotation.IdRes
@@ -37,10 +38,14 @@ class ViewByIdDelegate <out T : View>(private val rootGetter: ()-> View?, privat
     }
 }
 
-fun <T: View> Activity.viewById(@IdRes viewId: Int): ViewByIdDelegate<T>{
-    return ViewByIdDelegate({window.decorView.findViewById(android.R.id.content)},viewId)
+fun <T: View> Activity.viewById(@IdRes viewId: Int): ViewByIdDelegate<T> {
+    return ViewByIdDelegate({
+        window.decorView.findViewById(
+            R.id.content
+        )
+    }, viewId)
 }
 
-fun <T: View> Fragment.viewById(@IdRes viewId: Int): ViewByIdDelegate<T>{
-    return ViewByIdDelegate({view},viewId)
+fun <T: View> Fragment.viewById(@IdRes viewId: Int): ViewByIdDelegate<T> {
+    return ViewByIdDelegate({ view }, viewId)
 }

@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.qoiu.historyscreen.R
+import com.qoiu.model.SearchResults
 import kotlinx.android.synthetic.main.activity_history_recyclerview_item.view.*
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolder>() {
 
-    private var data: List<com.qoiu.model.SearchResults> = arrayListOf()
+    private var data: List<SearchResults> = arrayListOf()
 
-    fun setData(data: List<com.qoiu.model.SearchResults>) {
+    fun setData(data: List<SearchResults>) {
         this.data = data
         notifyDataSetChanged()
     }
@@ -34,7 +35,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolde
 
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(data: com.qoiu.model.SearchResults) {
+        fun bind(data: SearchResults) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 itemView.header_history_textview_recycler_item.text = data.text
                 itemView.setOnClickListener {

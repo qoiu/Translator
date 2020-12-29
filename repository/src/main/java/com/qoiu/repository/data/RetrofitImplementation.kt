@@ -1,7 +1,7 @@
 package com.qoiu.repository.data
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.qoiu.model.SearchResults
+import com.qoiu.model.SearchResultsDto
 import com.qoiu.repository.ApiService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -10,8 +10,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitImplementation :
-    DataSource<List<SearchResults>> {
-    override suspend fun getData(word: String): List<SearchResults> {
+    DataSource<List<SearchResultsDto>> {
+    override suspend fun getData(word: String): List<SearchResultsDto> {
         return getService(BaseInterceptor.interceptor).search(word).await()
     }
 

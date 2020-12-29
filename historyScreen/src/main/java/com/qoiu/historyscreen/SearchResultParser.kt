@@ -53,18 +53,16 @@ private fun getSuccessResultData(
 }
 
 private fun parseOnlineResult(dataModel: SearchResults, newDataModels: ArrayList<SearchResults>) {
-    if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
+    if (!dataModel.text.isBlank() && !dataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
-        for (meaning in dataModel.meanings!!) {
-            if (meaning.translation != null && !meaning.translation!!.translation.isNullOrBlank()) {
+        for (meaning in dataModel.meanings) {
                 newMeanings.add(
                     Meanings(
-                        meaning.translation,
+                        meaning.translatedMeaning,
                         meaning.transcription,
                         meaning.imageUrl
                     )
                 )
-            }
         }
         if (newMeanings.isNotEmpty()) {
             newDataModels.add(
