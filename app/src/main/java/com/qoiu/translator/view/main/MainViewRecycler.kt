@@ -30,7 +30,7 @@ class MainViewRecycler(private var onListItemClickListener: OnListItemClickListe
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(data: SearchResults) {
             itemView.word_title.text=data.text
-            itemView.word_description.text= data.meanings.get(0).transcription
+            itemView.word_description.text= data.meanings.get(0).translatedMeaning.translatedMeaning
             itemView.setOnClickListener{openInNewWindow(data)}
         }
     }

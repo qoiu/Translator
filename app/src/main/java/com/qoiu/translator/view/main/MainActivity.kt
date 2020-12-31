@@ -1,7 +1,9 @@
 package com.qoiu.translator.view.main
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
@@ -73,6 +75,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.history_menu, menu)
+        menu?.findItem(R.id.menu_settings)?.isVisible = Build.VERSION.SDK_INT>= Build.VERSION_CODES.Q
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -98,6 +101,11 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                             Toast.LENGTH_LONG)
                             .show()
                     }
+                true
+            }
+            R.id.menu_settings->{
+                startActivityForResult(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY),
+                    REQUEST_CODE)
                 true
             }
             else -> super.onOptionsItemSelected(item)
