@@ -6,11 +6,13 @@ import com.qoiu.model.AppState
 import com.qoiu.core.BaseActivity
 import com.qoiu.historyscreen.R
 import com.qoiu.historyscreen.injectDependendencies
+import com.qoiu.model.SearchResults
 import kotlinx.android.synthetic.main.activity_history.*
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.scope.currentScope
 
 class HistoryActivity : BaseActivity<AppState, HistoryInteractor>(){
 
+    override val layoutRes: Int = R.layout.activity_history
     override lateinit var model: HistoryViewModel
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
 
@@ -26,7 +28,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>(){
         model.getData("", false)
     }
 
-    override fun setDataToAdapter(data: List<com.qoiu.model.SearchResults>) {
+    override fun setDataToAdapter(data: List<SearchResults>) {
         adapter.setData(data)
     }
 
@@ -35,7 +37,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>(){
             throw IllegalStateException("The ViewModel should be initialised first")
         }
         injectDependendencies()
-        val viewModel: HistoryViewModel by viewModel()
+        val viewModel: HistoryViewModel by currentScope.inject()
         model = viewModel
         model.subscribe().observe(this@HistoryActivity, Observer<AppState> { renderData(it) })
     }

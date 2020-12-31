@@ -1,14 +1,14 @@
 package com.qoiu.repository.data
 
-import com.qoiu.model.SearchResults
+import com.qoiu.model.SearchResultsDto
 import com.qoiu.repository.convertDataModelSuccessToEntity
 import com.qoiu.repository.mapHistoryEntityToSearchResult
 import com.qoiu.repository.room.HistoryDao
 
 class RoomDataBaseImplementation(private val historyDao: HistoryDao) :
-    DataSourceLocal<List<SearchResults>> {
+    DataSourceLocal<List<SearchResultsDto>> {
 
-    override suspend fun getData(word: String): List<SearchResults> {
+    override suspend fun getData(word: String): List<SearchResultsDto> {
         return mapHistoryEntityToSearchResult(historyDao.all())
     }
 

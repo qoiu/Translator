@@ -4,16 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.qoiu.translator.R
 import com.qoiu.model.SearchResults
+import com.qoiu.translator.R
 import kotlinx.android.synthetic.main.word_information.view.*
 
 class MainViewRecycler(private var onListItemClickListener: OnListItemClickListener) : RecyclerView.Adapter<MainViewRecycler.ViewHolder>() {
 
-    private var data : List<com.qoiu.model.SearchResults> = arrayListOf()
+    private var data : List<SearchResults> = arrayListOf()
 
 
-    fun setData(data: List<com.qoiu.model.SearchResults>) {
+    fun setData(data: List<SearchResults>) {
         this.data = data.toMutableList()
         notifyDataSetChanged()
     }
@@ -28,9 +28,9 @@ class MainViewRecycler(private var onListItemClickListener: OnListItemClickListe
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(data: com.qoiu.model.SearchResults) {
+        fun bind(data: SearchResults) {
             itemView.word_title.text=data.text
-            itemView.word_description.text=data.meanings?.get(0)?.translation?.translation
+            itemView.word_description.text= data.meanings.get(0).transcription
             itemView.setOnClickListener{openInNewWindow(data)}
         }
     }
@@ -40,11 +40,11 @@ class MainViewRecycler(private var onListItemClickListener: OnListItemClickListe
     }
 
 
-    private fun openInNewWindow(listItemData: com.qoiu.model.SearchResults) {
+    private fun openInNewWindow(listItemData: SearchResults) {
         onListItemClickListener.onItemClick(listItemData)
     }
 
     interface OnListItemClickListener {
-        fun onItemClick(data: com.qoiu.model.SearchResults)
+        fun onItemClick(data: SearchResults)
     }
 }

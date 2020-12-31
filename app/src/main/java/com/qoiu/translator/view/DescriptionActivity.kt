@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -14,7 +15,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.qoiu.translator.R
-import com.qoiu.utils.isOnline
+import com.qoiu.utils.OnlineLiveData
+import com.qoiu.utils.ui.AlertDialogFragment
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_description.*
@@ -36,46 +38,49 @@ class DescriptionActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-       return when(item.itemId){
-            android.R.id.home->{
+        return when (item.itemId) {
+            android.R.id.home -> {
                 onBackPressed()
                 true
             }
-           else -> super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
 
-    private fun setData(){
-        val bundle=intent.extras
+    private fun setData() {
+        val bundle = intent.extras
         val transcription = "[${bundle?.getString(TRANSCRIPTION_EXTRA)}]"
-        description_layout_header.text=bundle?.getString(WORD_EXTRA)
-        description_layout_transcription.text=transcription
-        description_layout_description.text=bundle?.getString(DESCRIPTION_EXTRA)
+        description_layout_header.text = bundle?.getString(WORD_EXTRA)
+        description_layout_transcription.text = transcription
+        description_layout_description.text = bundle?.getString(DESCRIPTION_EXTRA)
         val imageLink = bundle?.getString(URL_EXTRA)
-        if(imageLink.isNullOrBlank()){
+        if (imageLink.isNullOrBlank()) {
             stopRefreshAnimationIfNeeded()
-        }else{
-            useGlideToLoadPhoto(description_layout_image,imageLink)
+        } else {
+            useGlideToLoadPhoto(description_layout_image, imageLink)
         }
     }
 
 
     private fun startLoadingOrShowError() {
-        if (isOnline(applicationContext)) {
-            setData()
-        } else {
-            com.qoiu.utils.ui.AlertDialogFragment.newInstance(
-                getString(R.string.dialog_title_device_is_offline),
-                getString(R.string.dialog_message_device_is_offline)
-            ).show(
-                supportFragmentManager,
-                DIALOG_FRAGMENT_TAG
-            )
-            stopRefreshAnimationIfNeeded()
-        }
+        OnlineLiveData(this).observe(
+            this@DescriptionActivity,
+            Observer<Boolean> {
+                if (it) {
+                    setData()
+                } else {
+                    AlertDialogFragment.newInstance(
+                        getString(R.string.dialog_title_device_is_offline),
+                        getString(R.string.dialog_message_device_is_offline)
+                    ).show(
+                        supportFragmentManager,
+                        DIALOG_FRAGMENT_TAG
+                    )
+                    stopRefreshAnimationIfNeeded()
+                }
+            })
     }
-
 
     private fun stopRefreshAnimationIfNeeded() {
         if (description_screen_refresh_layout.isRefreshing) {
@@ -101,10 +106,10 @@ class DescriptionActivity : AppCompatActivity() {
     }
 
 
-    private fun useGlideToLoadPhoto(imageView: ImageView, imageLink: String){
+    private fun useGlideToLoadPhoto(imageView: ImageView, imageLink: String) {
         Glide.with(imageView)
             .load("https:$imageLink")
-            .listener(object : RequestListener<Drawable>{
+            .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
                     model: Any?,
@@ -129,18 +134,19 @@ class DescriptionActivity : AppCompatActivity() {
             })
             .apply(
                 RequestOptions()
-                .placeholder(R.drawable.ic_baseline_picture_in_picture_24)
-                .centerCrop()
+                    .placeholder(R.drawable.ic_baseline_picture_in_picture_24)
+                    .centerCrop()
             )
             .into(imageView)
     }
 
 
-    companion object{
+    companion object {
         private const val WORD_EXTRA = "com.qoiu.translator.view.word.extra"
         private const val DIALOG_FRAGMENT_TAG = "com.qoiu.translator.view.dialog.fragment.tag"
         private const val DESCRIPTION_EXTRA = "com.qoiu.translator.view.dialog.description.extra"
-        private const val TRANSCRIPTION_EXTRA = "com.qoiu.translator.view.dialog.transcription.extra"
+        private const val TRANSCRIPTION_EXTRA =
+            "com.qoiu.translator.view.dialog.transcription.extra"
         private const val URL_EXTRA = "com.qoiu.translator.view.dialog.url.extra"
 
         fun getIntent(

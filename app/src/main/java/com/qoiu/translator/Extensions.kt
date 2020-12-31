@@ -9,9 +9,9 @@ fun convertMeaningsToString(meanings: List<Meanings>): String {
     var meaningsSeparatedByComma = String()
     for ((index, meaning) in meanings.withIndex()) {
         meaningsSeparatedByComma += if (index + 1 != meanings.size) {
-            String.format("%s%s", meaning.translation?.translation, ", ")
+            String.format("%s%s", meaning.translatedMeaning.translatedMeaning, ", ")
         } else {
-            meaning.translation?.translation
+            meaning.translatedMeaning.translatedMeaning
         }
     }
     return meaningsSeparatedByComma
@@ -38,18 +38,16 @@ fun parseSearchResults(data: AppState): AppState {
 
 
 private fun parseResult(dataModel: SearchResults, newDataModels: ArrayList<SearchResults>) {
-    if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
+    if (!dataModel.text.isBlank() && !dataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
-        for (meaning in dataModel.meanings!!) {
-            if (meaning.translation != null && !meaning.translation!!.translation.isNullOrBlank()) {
+        for (meaning in dataModel.meanings) {
                 newMeanings.add(
                     Meanings(
-                        meaning.translation,
+                        meaning.translatedMeaning,
                         meaning.transcription,
                         meaning.imageUrl
                     )
                 )
-            }
         }
         if (newMeanings.isNotEmpty()) {
             newDataModels.add(
